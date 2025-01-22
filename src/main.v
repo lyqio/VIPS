@@ -4,6 +4,7 @@ import os
 import cli
 
 // vips stored [directory]     // works as a basic ls command that tells you the scripts you have within a given directory
+// vips make [directory]       // creates a given directory and opens it
 
 // given that the input is in the form  <dir1>.<dir2>.<dir3>.<file>, search for the file dir1/dir2/dir3/file.<extension>
 // once you have found the target files location, determine it's type and execute it accordingly

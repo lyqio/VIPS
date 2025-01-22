@@ -9,10 +9,8 @@ const languages := [
 	"lua",
 ]
 
-// dir:       the directory of the file to be checking (file extension isn't included)  e.g. D:\Programming\V\VIPS\src\scripts\test
-// command:   the language you are using e.g. python | ruby | lua
-fn try_script(dir string, language string) ! {
-  extension := if language == "python" {
+pub fn to_extension(language string) string {
+  return if language == "python" {
     "py"
   } else if language == "ruby" {
     "rb"
@@ -21,7 +19,13 @@ fn try_script(dir string, language string) ! {
   } else {
     ""
   }
-  
+}
+
+// dir:       the directory of the file to be checking (file extension isn't included)  e.g. D:\Programming\V\VIPS\src\scripts\test
+// command:   the language you are using e.g. python | ruby | lua
+fn try_script(dir string, language string) ! {
+  extension := to_extension(language)
+ 
   mut script := language + " src/scripts/" + dir + "." + extension
 
   for i in 3..os.args.len {
