@@ -15,7 +15,7 @@ fn main() {
     // Vlang International Program Script-handler
     name: 'VIPS'
     description: 'A script handler written in the V programming language, currently supports Ruby, Python and Lua'
-    version: '0.2.0'
+    version: '0.3.0'
   }
 
   mut do_cmd := cli.Command {
@@ -31,9 +31,20 @@ fn main() {
   cmd.parse(os.args)
 }
 
-fn command_do(cmd cli.Command) ! {
-  dir := os.args[2].replace(".", "/")
-  mut script := "python src/scripts/" + dir + ".py"
+// dir:       the directory of the file to be checking (file extension isn't included)  e.g. D:\Programming\V\VIPS\src\scripts\test
+// command:   the language you are using e.g. python | ruby | lua
+fn try_script(dir string, language string) ! {
+  extension := if language == "python" {
+    "py"
+  } else if language == "ruby" {
+    "rb"
+  } else if language == "lua" {
+    "lua"
+  } else {
+    ""
+  }
+  
+  mut script := language + " src/scripts/" + dir + "." + extension
 
   for i in 3..os.args.len {
     script += " " + os.args[i] + " "
@@ -46,16 +57,24 @@ fn command_do(cmd cli.Command) ! {
     return 
   }
 
-  mut ruby_script := "ruby src/scripts/" + dir + ".rb"
+  return error("cannot find given file")
+}
 
-  for i in 3..os.args.len {
-    ruby_script += " " + os.args[i] + " "
-  }
+fn command_do(cmd cli.Command) ! {
+  dir := os.args[2].replace(".", "/")
+  languages := [
+    "python", 
+    "ruby", 
+    "lua"
+  ]
 
-  result = os.execute(ruby_script)
+  for lang in languages {
+    try_script(dir, lang) or {
+      continue
+    }
 
-  if result.exit_code == 0 {
-    print(result.output)
     return
   }
+
+  return error("Could not find specified file")
 }
