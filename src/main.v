@@ -15,7 +15,7 @@ fn main() {
     // Vlang International Program Script-handler
     name: 'VIPS'
     description: 'A script handler written in the V programming language, currently supports Ruby, Python and Lua'
-    version: '0.1.0'
+    version: '0.2.0'
   }
 
   mut do_cmd := cli.Command {
@@ -39,10 +39,23 @@ fn command_do(cmd cli.Command) ! {
     script += " " + os.args[i] + " "
   }
 
-  result := os.execute(script)
+  mut result := os.execute(script)
 
   if result.exit_code == 0 {
     print(result.output)
     return 
+  }
+
+  mut ruby_script := "ruby src/scripts/" + dir + ".rb"
+
+  for i in 3..os.args.len {
+    ruby_script += " " + os.args[i] + " "
+  }
+
+  result = os.execute(ruby_script)
+
+  if result.exit_code == 0 {
+    print(result.output)
+    return
   }
 }
