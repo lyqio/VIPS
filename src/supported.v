@@ -7,9 +7,9 @@ pub fn cmd_supported(cmd cli.Command) ! {
 	good := "✅"
 	bad := "❌"
 
-	println("                Supported:     Installed")
+	println("                Supported      Installed")
 	for lang in languages {
-		try_script("welcome/welcome", lang) or {
+		try_script(".init/welcome", lang) or {
 			println("${lang}:    	    ${good}            ${bad}")
 			continue
 		}

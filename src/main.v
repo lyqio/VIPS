@@ -3,7 +3,6 @@ module main
 import os
 import cli
 
-// vips supported              // returns the languages that are supported and whether they work on your computer
 // vips stored [directory]     // works as a basic ls command that tells you the scripts you have within a given directory
 
 // given that the input is in the form  <dir1>.<dir2>.<dir3>.<file>, search for the file dir1/dir2/dir3/file.<extension>
@@ -28,7 +27,6 @@ fn main() {
   mut supported_cmd := cli.Command {
     name: 'supported'
     description: 'shows all supported languages and whether they are working on your machine (if you have them installed)'
-    usage: ''
     required_args: 0
     execute: cmd_supported
   }
