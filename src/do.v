@@ -3,6 +3,12 @@ module main
 import os
 import cli
 
+const languages := [
+	"python",
+	"ruby",
+	"lua",
+]
+
 // dir:       the directory of the file to be checking (file extension isn't included)  e.g. D:\Programming\V\VIPS\src\scripts\test
 // command:   the language you are using e.g. python | ruby | lua
 fn try_script(dir string, language string) ! {
@@ -34,11 +40,6 @@ fn try_script(dir string, language string) ! {
 
 pub fn command_do(cmd cli.Command) ! {
   dir := os.args[2].replace(".", "/")
-  languages := [
-    "python", 
-    "ruby", 
-    "lua"
-  ]
 
   for lang in languages {
     try_script(dir, lang) or {

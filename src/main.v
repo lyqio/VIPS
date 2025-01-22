@@ -25,7 +25,16 @@ fn main() {
     execute:  command_do
   }
 
+  mut supported_cmd := cli.Command {
+    name: 'supported'
+    description: 'shows all supported languages and whether they are working on your machine (if you have them installed)'
+    usage: ''
+    required_args: 0
+    execute: cmd_supported
+  }
+
 	cmd.add_command(do_cmd)
+  cmd.add_command(supported_cmd)
   cmd.setup()
   cmd.parse(os.args)
 }
