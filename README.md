@@ -16,7 +16,6 @@ which will tell you all the working languages.
 # Note
 this only works on Windows at the moment
 
-<br>
 # Installation and setup
 you must have the following file structure setup for this to work:
 `.../V/Script/src/scripts` folder created for your scripts, and; <br>
