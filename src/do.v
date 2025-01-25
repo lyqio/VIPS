@@ -21,12 +21,24 @@ pub fn to_extension(language string) string {
   }
 }
 
+fn getdir() !string {
+  result := os.execute("powershell -Command pwd")
+  
+  if result.exit_code == 0 {
+    out := result.output.split("\r\n")
+    return out[4].replace("\\", "/")
+  }
+  
+  return error("Could not get working directory")
+}
+
 // dir:       the directory of the file to be checking (file extension isn't included)  e.g. D:\Programming\V\VIPS\src\scripts\test
 // command:   the language you are using e.g. python | ruby | lua
 fn try_script(dir string, language string) ! {
   extension := to_extension(language)
- 
-  mut script := language + " src/scripts/" + dir + "." + extension
+  working_dir := getdir()!
+
+  mut script := language + " " + working_dir + "/V/Script/src/scripts/" + dir + "." + extension
 
   for i in 3..os.args.len {
     script += " " + os.args[i] + " "
@@ -36,7 +48,7 @@ fn try_script(dir string, language string) ! {
 
   if result.exit_code == 0 {
     print(result.output)
-    return 
+    return
   }
 
   return error("cannot find given file")
